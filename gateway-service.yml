@@ -1,0 +1,15 @@
+spring:
+    cloud:
+      gateway:
+        routes:
+          - id: employee-service
+            uri: lb://employee-service
+            predicates:
+              - Path=/employee/**
+
+          - id: department-service
+            uri: lb://department-service
+            predicates:
+              - Path=/department/**
+server:
+  port: 9094
