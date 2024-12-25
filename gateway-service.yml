@@ -1,19 +1,29 @@
-# Eureka properties
-eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
-eureka.client.fetch-registry=true
-eureka.client.register-with-eureka=true
 
-# Gateway routes for employee-service
-spring.cloud.gateway.routes[0].id=employee-service
-spring.cloud.gateway.routes[0].uri=lb://employee-service
-spring.cloud.gateway.routes[0].predicates[0]=Path=/employee/**
+server:
+  port: 8060
 
-# Gateway routes for department-service
-spring.cloud.gateway.routes[1].id=department-service
-spring.cloud.gateway.routes[1].uri=lb://department-service
-spring.cloud.gateway.routes[1].predicates[0]=Path=/department/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
-# Server port
-server.port=9094
-eureka.client.instance.hostname=localhost
-eureka.client.instance.prefer-ip-address=true
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/employee/**
+
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/department/**
+
+
